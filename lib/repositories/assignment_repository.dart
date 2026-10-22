@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AssignmentRepository extends ChangeNotifier{
   // 🌟 Local cache holding the active assignments state in memory
@@ -268,6 +269,13 @@ class AssignmentRepository extends ChangeNotifier{
       _assignments = data
         .map((item) => Assignment.fromJson(item as Map<String, dynamic>))
         .toList();
+
+      // 🌟 Bring back the student's saved difficulty, priority and times
+      final prefs = await SharedPreferences.getInstance();
+      final saved = prefs.getString(savedEditsKey);
+      if (saved != null) {
+        _assignments = applySavedEdits(_assignments, jsonDecode(saved) as Map<String, dynamic>);
+      }
     } catch (e) {
       // 🌟 Keep the reason for the Home screen and drop any half-loaded data
       _loadError = e.toString();
@@ -288,7 +296,12 @@ class AssignmentRepository extends ChangeNotifier{
 
     final index = _assignments.indexWhere((e) => e.id == id);
     if (index == -1) return;
-    
+
+    // Record the edit first, so the newest logged time counts in the estimates below
+    _assignments[index] = _assignments[index].copyWith(
+      0, priority, difficulty, compTime
+    );
+
     Map estTimeMap = AssignmentTimeAlgorithm.estimateAssignmentTime(_assignments);
     _assignments = assignments.map(
       (e) {
@@ -313,11 +326,46 @@ class AssignmentRepository extends ChangeNotifier{
       }
     ).toList();
 
-    _assignments[index] = _assignments[index].copyWith(
-      0, priority, difficulty, compTime
-    );
-
     notifyListeners();
+    _saveEdits();
+  }
+
+
+  // 🌟 Saved edits live on the device under this key; demo mode never saves
+  static const String savedEditsKey = 'assignment_edits';
+
+  Future<void> _saveEdits() async {
+    if (isDemoMode) return;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(savedEditsKey, jsonEncode(editsToSave(_assignments)));
+  }
+
+  // 🌟 Keeps only the assignments the student (or the time learning) has changed
+  static Map<String, dynamic> editsToSave(List<Assignment> assignments) {
+    return {
+      for (final a in assignments)
+        if (a.difficulty != 0 || a.priority != 0 || a.estimatedCompletionTime != 0 || a.completionTime != 0)
+          '${a.id}': {
+            'difficulty': a.difficulty,
+            'priority': a.priority,
+            'estimatedCompletionTime': a.estimatedCompletionTime,
+            'completionTime': a.completionTime,
+          }
+    };
+  }
+
+  // 🌟 Puts saved values back onto freshly loaded Canvas assignments
+  static List<Assignment> applySavedEdits(List<Assignment> assignments, Map<String, dynamic> edits) {
+    return assignments.map((a) {
+      final saved = edits['${a.id}'];
+      if (saved == null) return a;
+      return a.copyWith(
+        saved['estimatedCompletionTime'] as int,
+        saved['priority'] as int,
+        saved['difficulty'] as int,
+        saved['completionTime'] as int
+      );
+    }).toList();
   }
 
 
