@@ -6,6 +6,12 @@ schedule based on due dates, difficulty and priority.
 
 Built with Flutter for the Congressional App Challenge.
 
+## Home Screen
+![CourseFlow home screen](docs/screenshots/home.png)
+
+## Courses Screen
+![CourseFlow home screen](docs/screenshots/courses.png)
+
 ## Running the app
 
 ### Demo mode (no Canvas account needed)
