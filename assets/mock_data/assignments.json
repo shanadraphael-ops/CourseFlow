@@ -1,0 +1,40 @@
+[
+    {
+        "id": 1,
+        "name": "Assignment 1 - Course 1",
+        "description": "<p>This is a standard paragraph used to test basic typography, font size, line height, and spacing defaults across different browsers.</p>",
+        "due_at":"2026-10-20T17:00:00Z",
+        "course_id": 101,
+        "submission": {
+            "workflow_state": "submitted",
+            "late": false
+        }
+    },
+    {
+        "id": 2,
+        "name":"Assignment 2 - Course 1",
+        "description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin elementum id arcu in eleifend. Mauris sit amet risus nisl. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum condimentum leo ac dolor posuere vulputate.</p>",
+        "due_at":"2026-06-29T19:00:00.000Z",
+        "course_id": 101,
+        "submission": null
+    },
+    {
+        "id": 3,
+        "name": "Assignment 3 - Course 2",
+        "description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin elementum id arcu in eleifend. Mauris sit amet risus nisl. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum condimentum leo ac dolor posuere vulputate.</p>",
+        "due_at":"2026-06-29T19:00:00.000Z",
+        "course_id": 102,
+        "submission": {
+            "workflow_state": "submitted",
+            "late": true
+        }
+    },
+    {
+        "id": 4,
+        "name":"Assignment 4 - Course 2",
+        "description": "<p>This is a standard paragraph used to test basic typography, font size, line height, and spacing defaults across different browsers.</p>",
+        "due_at":"2026-10-19T17:08:07.000Z",
+        "course_id": 102,
+        "submission": null
+    }
+]
