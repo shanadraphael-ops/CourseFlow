@@ -10,7 +10,7 @@ Built with Flutter for the Congressional App Challenge.
 ![CourseFlow home screen](docs/screenshots/home.png)
 
 ## Courses Screen
-![CourseFlow home screen](docs/screenshots/courses.png)
+![CourseFlow courses screen](docs/screenshots/courses.png)
 
 ## Running the app
 
