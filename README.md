@@ -53,3 +53,9 @@ Canvas requires for apps with multiple users.
    (Keychain on iOS, Keystore on Android) and refreshes them when they expire.
 5. **School picker.** The student chooses their school, and the app uses that
    school's Canvas address and developer key.
+
+## License
+
+CourseFlow is free software, released under the
+[GNU General Public License v3.0](LICENSE). You may use, change and share it,
+but any version you share must also be released under GPL-3.0.
